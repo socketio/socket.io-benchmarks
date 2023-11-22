@@ -7,15 +7,26 @@ const io = new Server(PORT);
 
 initReporting(io);
 
+let isGCExposed = false;
+
+try {
+  gc();
+  isGCExposed = true;
+} catch (e) {
+  console.warn("GC cannot be manually triggered");
+}
+
 io.on("connection", (socket) => {
   socket.on("ping", (cb) => {
     cb("pong");
   });
 
-  socket.on("disconnect", () => {
-    const lastToDisconnect = io.sockets.sockets.size === 0;
-    if (lastToDisconnect) {
-      gc();
-    }
-  });
+  if (isGCExposed) {
+    socket.on("disconnect", () => {
+      const lastToDisconnect = io.sockets.sockets.size === 0;
+      if (lastToDisconnect) {
+        gc();
+      }
+    });
+  }
 });

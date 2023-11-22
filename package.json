@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "node --expose-gc server-default.js",
-    "start:eiows": "node --expose-gc server-eiows.js",
-    "start:uws": "node --expose-gc server-uws.js"
+    "start:eiows": "node server-eiows.js",
+    "start:uws": "node server-uws.js"
   }
 }

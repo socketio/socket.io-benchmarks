@@ -11,13 +11,6 @@ wss.on("connection", (ws) => {
   ws.on("message", () => {
     ws.send("pong");
   });
-
-  ws.on("close", () => {
-    const lastToDisconnect = wss.clients.size === 0;
-    if (lastToDisconnect) {
-      gc();
-    }
-  });
 });
 
 const printStats = () => {
