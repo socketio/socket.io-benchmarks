@@ -1,6 +1,19 @@
-import { memoryUsage } from "process";
+import { memoryUsage } from "node:process";
+
+let isGCExposed = false;
+
+try {
+  gc();
+  isGCExposed = true;
+} catch (e) {
+  console.warn("Manual GC is not available");
+}
 
 const printStats = (io) => {
+  if (isGCExposed) {
+    gc();
+  }
+
   const { rss, heapUsed, heapTotal } = memoryUsage();
 
   const values = [

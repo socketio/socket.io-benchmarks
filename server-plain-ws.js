@@ -1,5 +1,5 @@
 import { WebSocketServer } from "ws";
-import { memoryUsage } from "process";
+import { memoryUsage } from "node:process";
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,7 +13,20 @@ wss.on("connection", (ws) => {
   });
 });
 
+let isGCExposed = false;
+
+try {
+  gc();
+  isGCExposed = true;
+} catch (e) {
+  console.warn("Manual GC is not available");
+}
+
 const printStats = () => {
+  if (isGCExposed) {
+    gc();
+  }
+
   const { rss, heapUsed, heapTotal } = memoryUsage();
 
   const values = [
