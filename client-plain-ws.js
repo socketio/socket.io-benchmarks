@@ -1,10 +1,9 @@
 import WebSocket from "ws";
-import { hrtime } from "process";
+import { hrtime } from "node:process";
 
 const URL = process.env.URL || "ws://localhost:3000";
 const MAX_CLIENTS = 10000;
 const PING_INTERVAL = 1000;
-const CLIENT_CREATION_INTERVAL_IN_MS = 5;
 
 let clientCount = 0;
 
@@ -32,7 +31,7 @@ const createClient = () => {
   });
 
   if (++clientCount < MAX_CLIENTS) {
-    setTimeout(createClient, CLIENT_CREATION_INTERVAL_IN_MS);
+    ws.on("open", () => createClient());
   }
 };
 

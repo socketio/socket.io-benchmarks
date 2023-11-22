@@ -1,11 +1,10 @@
 import { io } from "socket.io-client";
-import { hrtime } from "process";
+import { hrtime } from "node:process";
 
 const URL = process.env.URL || "http://localhost:3000";
 const MAX_CLIENTS = 100;
 const PING_INTERVAL = 1000;
 const POLLING_PERCENTAGE = 0.05;
-const CLIENT_CREATION_INTERVAL_IN_MS = 5;
 
 let clientCount = 0;
 
@@ -37,7 +36,7 @@ const createClient = () => {
   });
 
   if (++clientCount < MAX_CLIENTS) {
-    setTimeout(createClient, CLIENT_CREATION_INTERVAL_IN_MS);
+    socket.on("connect", () => createClient());
   }
 };
 
