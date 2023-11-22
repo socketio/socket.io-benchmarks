@@ -16,6 +16,10 @@ try {
   console.warn("GC cannot be manually triggered");
 }
 
+io.engine.on("connection", (rawSocket) => {
+  rawSocket.request = null;
+});
+
 io.on("connection", (socket) => {
   socket.on("ping", (cb) => {
     cb("pong");

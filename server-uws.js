@@ -18,6 +18,10 @@ app.listen(PORT, (token) => {
 
 initReporting(io);
 
+io.engine.on("connection", (rawSocket) => {
+  rawSocket.request = null;
+});
+
 io.on("connection", (socket) => {
   socket.on("ping", (cb) => {
     cb("pong");
