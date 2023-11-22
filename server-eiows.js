@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { initReporting } from "./reporting.js";
-import eiows from "eiows";
+import { eiows } from "eiows";
 
 const PORT = process.env.PORT || 3000;
 
